@@ -1,0 +1,3362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Club Suki · Judo Hub</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root{
+ --bg:#08080a;
+ --panel:#121217;
+ --panel2:#0d0d11;
+ --line:#24242d;
+ --text:#e9e9ef;
+ --muted:#92929f;
+ --red:#b91c1c;
+ --red2:#ef4444;
+ --green:#166534;
+ --green2:#22c55e;
+ --yellow:#eab308;
+ --blue:#3b82f6;
+ --radius:16px;
+}
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Inter,system-ui,sans-serif;
+}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.app{display:flex;min-height:100vh}
+
+.sidebar{
+ width:250px;
+ background:#0b0b0e;
+ border-right:1px solid var(--line);
+ padding:22px 14px;
+ position:fixed;
+ inset:0 auto 0 0;
+ z-index:20;
+}
+
+.brand{
+
+ display:flex;
+
+ align-items:center;
+
+ gap:12px;
+
+ padding:8px 10px 28px;
+
+}
+
+.brand-logo{
+ width:64px;
+ height:64px;
+ object-fit:contain;
+ border-radius:14px;
+ flex-shrink:0;
+}
+
+.logo{
+ width:42px;
+ height:42px;
+ border-radius:12px;
+ background:linear-gradient(145deg,#b91c1c,#591010);
+ display:grid;
+ place-items:center;
+ font-weight:900;
+ font-style:italic;
+ font-size:18px;
+}
+
+.brand b{font-size:15px;letter-spacing:.08em}
+
+.brand small{
+ display:block;
+ color:var(--muted);
+ font-size:10px;
+ margin-top:2px;
+}
+
+.nav{display:grid;gap:6px}
+
+.nav button{
+ border:0;
+ background:transparent;
+ color:#aaaab5;
+ text-align:left;
+ padding:12px 13px;
+ border-radius:11px;
+ font-weight:700;
+ font-size:13px;
+}
+
+.nav button:hover,
+.nav button.active{
+ background:#19191f;
+ color:#fff;
+}
+
+.nav button.active{
+ box-shadow:inset 3px 0 0 var(--red2);
+}
+
+.main{
+ margin-left:250px;
+ width:calc(100% - 250px);
+ padding:26px;
+ max-width:1600px;
+}
+
+.top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ margin-bottom:25px;
+}
+
+.eyebrow{
+ font-size:11px;
+ color:var(--muted);
+ font-weight:800;
+ letter-spacing:.15em;
+ text-transform:uppercase;
+}
+
+h1{
+ margin:5px 0 0;
+ font-size:29px;
+ font-style:italic;
+ text-transform:uppercase;
+ font-weight:900;
+ letter-spacing:-.04em;
+}
+
+.actions{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+}
+
+.btn{
+ border:1px solid var(--line);
+ background:#17171d;
+ color:#eee;
+ border-radius:10px;
+ padding:10px 14px;
+ font-weight:800;
+ font-size:12px;
+}
+
+.btn.primary{
+ background:var(--red);
+ border-color:var(--red);
+}
+
+.btn.green{
+ background:var(--green);
+ border-color:var(--green);
+}
+
+.btn:hover{filter:brightness(1.12)}
+
+.view{display:none}
+.view.active{display:block}
+
+.grid{display:grid;gap:15px}
+
+.stats{
+ grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.card{
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:var(--radius);
+ padding:18px;
+}
+
+.stat-label{
+ color:var(--muted);
+ font-size:11px;
+ font-weight:800;
+ text-transform:uppercase;
+ letter-spacing:.08em;
+}
+
+.stat-value{
+ font-size:30px;
+ font-weight:900;
+ margin-top:7px;
+}
+
+.stat-note{
+ color:#777783;
+ font-size:11px;
+ margin-top:5px;
+}
+
+.two{grid-template-columns:1.5fr 1fr}
+.three{grid-template-columns:repeat(3,1fr)}
+
+.section-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:14px;
+ gap:10px;
+}
+
+.section-head h2{
+ font-size:15px;
+ text-transform:uppercase;
+ font-style:italic;
+ margin:0;
+ font-weight:900;
+}
+
+.list{display:grid;gap:9px}
+
+.row{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:12px;
+ border:1px solid #202028;
+ border-radius:12px;
+ background:#101015;
+}
+
+.row-left{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ min-width:0;
+}
+
+.avatar{
+ width:38px;
+ height:38px;
+ border-radius:10px;
+ background:#27272f;
+ display:grid;
+ place-items:center;
+ font-weight:900;
+ flex-shrink:0;
+}
+
+.row-title{
+ font-weight:800;
+ font-size:13px;
+}
+
+.row-sub{
+ font-size:11px;
+ color:var(--muted);
+ margin-top:3px;
+}
+
+.badge{
+ display:inline-flex;
+ align-items:center;
+ padding:5px 8px;
+ border-radius:999px;
+ font-size:10px;
+ font-weight:900;
+ text-transform:uppercase;
+ white-space:nowrap;
+}
+
+.badge.green{
+ background:#12391f;
+ color:#62dc88;
+}
+
+.badge.red{
+ background:#421414;
+ color:#ff7373;
+}
+
+.badge.yellow{
+ background:#40350b;
+ color:#f4cf49;
+}
+
+.badge.blue{
+ background:#102b4b;
+ color:#65aaf8;
+}
+
+.calendar-toolbar{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:14px;
+ gap:10px;
+}
+
+.month{
+ font-size:20px;
+ font-weight:900;
+ text-transform:uppercase;
+ font-style:italic;
+}
+
+.calendar{
+ display:grid;
+ grid-template-columns:repeat(7,1fr);
+ border:1px solid var(--line);
+ border-radius:14px;
+ overflow:hidden;
+}
+
+.dayname{
+ padding:10px;
+ background:#0e0e12;
+ color:#777783;
+ font-size:10px;
+ font-weight:900;
+ text-align:center;
+ border-right:1px solid var(--line);
+ text-transform:uppercase;
+}
+
+.day{
+ min-height:125px;
+ background:#111116;
+ border-right:1px solid var(--line);
+ border-top:1px solid var(--line);
+ padding:8px;
+ overflow:hidden;
+}
+
+.day:nth-child(7n){border-right:0}
+
+.day.muted{opacity:.35}
+
+.day.today{
+ box-shadow:inset 0 0 0 1px var(--red);
+}
+
+.daynum{
+ font-size:11px;
+ font-weight:900;
+ margin-bottom:6px;
+}
+
+.event{
+ border-radius:8px;
+ padding:7px;
+ margin:4px 0;
+ background:#1b1b22;
+ border-left:3px solid var(--red);
+ font-size:10px;
+ cursor:pointer;
+}
+
+.event.green{border-left-color:var(--green2)}
+.event.blue{border-left-color:var(--blue)}
+
+.event strong{
+ display:block;
+ font-size:10px;
+}
+
+.event span{color:#9999a4}
+
+.toolbar{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+ margin-bottom:15px;
+}
+
+input,select{
+ width:100%;
+ background:#0b0b0f;
+ border:1px solid #292932;
+ color:#eee;
+ border-radius:10px;
+ padding:11px 12px;
+ outline:none;
+}
+
+input:focus,select:focus{
+ border-color:#477452;
+}
+
+.search{max-width:320px}
+
+.formgrid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+}
+
+.field label{
+ display:block;
+ color:#9b9ba5;
+ font-size:10px;
+ font-weight:800;
+ text-transform:uppercase;
+ margin-bottom:6px;
+}
+
+.table{
+ width:100%;
+ border-collapse:collapse;
+}
+
+.table th{
+ text-align:left;
+ color:#777783;
+ font-size:10px;
+ text-transform:uppercase;
+ padding:11px;
+ border-bottom:1px solid var(--line);
+}
+
+.table td{
+ padding:12px 11px;
+ border-bottom:1px solid #202028;
+ font-size:12px;
+}
+
+.table tr:hover{background:#17171d}
+
+.att-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:9px;
+}
+
+.att{
+ padding:12px;
+ border:1px solid var(--line);
+ border-radius:12px;
+ background:#101015;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+}
+
+.progress{
+ height:7px;
+ background:#292931;
+ border-radius:99px;
+ overflow:hidden;
+ margin-top:7px;
+}
+
+.progress i{
+ display:block;
+ height:100%;
+ background:var(--green2);
+}
+
+.empty{
+ padding:35px;
+ text-align:center;
+ color:#777783;
+ border:1px dashed #30303a;
+ border-radius:14px;
+}
+
+.payment-summary{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:12px;
+ margin-bottom:15px;
+}
+
+.payment-card{
+ background:#101015;
+ border:1px solid var(--line);
+ border-radius:14px;
+ padding:16px;
+}
+
+.payment-number{
+ font-size:25px;
+ font-weight:900;
+ margin-top:6px;
+}
+
+.payment-green{color:#4ade80}
+.payment-yellow{color:#facc15}
+.payment-red{color:#f87171}
+.payment-blue{color:#60a5fa}
+
+.mobile-head{display:none}
+
+@media(max-width:900px){
+
+ .sidebar{display:none}
+
+ .main{
+  margin-left:0;
+  width:100%;
+  padding:15px;
+ }
+
+ .mobile-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+ }
+
+ .stats{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .two,.three{
+  grid-template-columns:1fr;
+ }
+
+ .payment-summary{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .day{
+  min-height:100px;
+  padding:5px;
+ }
+
+ .event{
+  font-size:8px;
+  padding:5px;
+ }
+
+ .event span{display:none}
+}
+
+@media(max-width:560px){
+
+ .stats{
+  grid-template-columns:1fr 1fr;
+ }
+
+ .stat-value{font-size:24px}
+
+ .calendar{font-size:9px}
+
+ .day{min-height:78px}
+
+ .dayname{padding:7px 2px}
+
+ .table th:nth-child(3),
+ .table td:nth-child(3),
+ .table th:nth-child(5),
+ .table td:nth-child(5){
+  display:none;
+ }
+
+ .formgrid{
+  grid-template-columns:1fr;
+ }
+
+ .top{
+  align-items:flex-start;
+ }
+
+ .top .actions{
+  display:none;
+ }
+
+ .att-grid{
+  grid-template-columns:1fr;
+ }
+
+ .payment-summary{
+  grid-template-columns:1fr 1fr;
+ }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<<div class="brand">
+ <img src="https://i.imgur.com/WCptMd2.jpeg" alt="Club Suki" class="brand-logo">
+ <div>
+  <b>CLUB SUKI</b>
+  <small>JUDO · MULTISPORT HUB</small>
+ </div>
+</div>
+
+<nav class="nav">
+
+<button class="active" data-view="dashboard">
+ ▦ &nbsp; Dashboard
+</button>
+
+<button data-view="calendar">
+ ◫ &nbsp; Calendario
+</button>
+
+<button data-view="students">
+ ● &nbsp; Alumnos
+</button>
+
+<button data-view="attendance">
+ ✓ &nbsp; Asistencia
+</button>
+
+<button data-view="payments">
+ 💳 &nbsp; Pagos
+</button>
+
+<button data-view="sessions">
+ ⚡ &nbsp; Sesiones
+</button>
+
+<button data-view="progress">
+ ★ &nbsp; Progresión
+</button>
+
+</nav>
+
+</aside>
+
+<main class="main">
+
+<div class="mobile-head">
+
+
+<button class="btn" onclick="openStudent()">
+ + Alumno
+</button>
+
+</div>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="view active">
+
+<div class="top">
+
+<div>
+ <div class="eyebrow">
+  Club Suki · Panel de control
+ </div>
+
+ <h1>
+  Hoy en el tatami
+ </h1>
+</div>
+
+<div class="actions">
+
+<button class="btn primary" onclick="openStudent()">
+ + Nuevo alumno
+</button>
+
+<button class="btn green" onclick="showView('sessions')">
+ ⚡ Crear sesión
+</button>
+
+</div>
+
+</div>
+
+
+<div class="grid stats">
+
+<div class="card">
+ <div class="stat-label">Alumnos activos</div>
+ <div class="stat-value" id="statStudents">20</div>
+ <div class="stat-note">Todos los grupos</div>
+</div>
+
+<div class="card">
+ <div class="stat-label">Clases hoy</div>
+ <div class="stat-value" id="statClasses">0</div>
+ <div class="stat-note">Tatami + multisport</div>
+</div>
+
+<div class="card">
+ <div class="stat-label">Cobrado este mes</div>
+ <div class="stat-value" id="statPaid">0 €</div>
+ <div class="stat-note">Cuotas registradas</div>
+</div>
+
+<div class="card">
+ <div class="stat-label">Pendiente de cobro</div>
+ <div class="stat-value" id="statPending">0 €</div>
+ <div class="stat-note">Revisar pagos</div>
+</div>
+
+</div>
+
+
+<div class="grid two" style="margin-top:15px">
+
+<div class="card">
+
+<div class="section-head">
+
+<h2>Próximas clases</h2>
+
+<button
+ class="btn"
+ onclick="showView('calendar')"
+>
+ Ver calendario
+</button>
+
+</div>
+
+<div id="nextClasses" class="list"></div>
+
+</div>
+
+
+<div class="card">
+
+<div class="section-head">
+<h2>Actividad rápida</h2>
+</div>
+
+<div class="list">
+
+<div class="row">
+
+<div class="row-left">
+
+<div class="avatar">✓</div>
+
+<div>
+<div class="row-title">
+ Asistencia Peques
+</div>
+<div class="row-sub">
+ Última clase registrada
+</div>
+</div>
+
+</div>
+
+<span class="badge green">
+ OK
+</span>
+
+</div>
+
+
+<div class="row">
+
+<div class="row-left">
+
+<div class="avatar">💳</div>
+
+<div>
+<div class="row-title">
+ Revisar cobros
+</div>
+
+<div class="row-sub">
+ Cuotas mensuales
+</div>
+
+</div>
+
+</div>
+
+<span
+ class="badge yellow"
+ onclick="showView('payments')"
+>
+ Pagos
+</span>
+
+</div>
+
+
+<div class="row">
+
+<div class="row-left">
+
+<div class="avatar">★</div>
+
+<div>
+<div class="row-title">
+ Progresión
+</div>
+
+<div class="row-sub">
+ Revisar evolución
+</div>
+
+</div>
+
+</div>
+
+<span class="badge blue">
+ Nueva
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CALENDAR ================= -->
+
+<section id="calendar" class="view">
+
+<div class="top">
+
+<div>
+<div class="eyebrow">Planificación</div>
+<h1>Calendario</h1>
+</div>
+
+<div class="actions">
+
+<button class="btn" onclick="openClass()">
+ + Nueva clase
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="calendar-toolbar">
+
+<div class="actions">
+
+<button class="btn" onclick="changeMonth(-1)">
+ ‹
+</button>
+
+<button class="btn" onclick="goToday()">
+ Hoy
+</button>
+
+<button class="btn" onclick="changeMonth(1)">
+ ›
+</button>
+
+</div>
+
+<div class="month" id="monthTitle"></div>
+
+<div style="width:110px"></div>
+
+</div>
+
+<div id="calendarGrid" class="calendar"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= STUDENTS ================= -->
+
+<section id="students" class="view">
+
+<div class="top">
+
+<div>
+<div class="eyebrow">Gestión</div>
+<h1>Alumnos</h1>
+</div>
+
+<div class="actions">
+
+<button class="btn primary" onclick="openStudent()">
+ + Nuevo alumno
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="toolbar">
+
+<input
+ class="search"
+ id="studentSearch"
+ oninput="renderStudents()"
+ placeholder="Buscar alumno..."
+>
+
+<select
+ id="groupFilter"
+ onchange="renderStudents()"
+ style="max-width:220px"
+></select>
+
+</div>
+
+
+<div style="overflow:auto">
+
+<table class="table">
+
+<thead>
+
+<tr>
+<th>Alumno</th>
+<th>Grupo</th>
+<th>Edad</th>
+<th>Estado</th>
+<th>Progreso</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody id="studentsBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ATTENDANCE ================= -->
+
+<section id="attendance" class="view">
+
+<div class="top">
+
+<div>
+<div class="eyebrow">Control diario</div>
+<h1>Asistencia</h1>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="toolbar">
+
+<select
+ id="attGroup"
+ onchange="renderAttendance()"
+ style="max-width:280px"
+></select>
+
+<input
+ id="attDate"
+ type="date"
+ onchange="renderAttendance()"
+ style="max-width:180px"
+>
+
+</div>
+
+<div id="attendanceList" class="att-grid"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PAYMENTS ================= -->
+
+<section id="payments" class="view">
+
+<div class="top">
+
+<div>
+
+<div class="eyebrow">
+ Gestión económica
+</div>
+
+<h1>
+ Pagos
+</h1>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="toolbar">
+
+<select
+ id="paymentMonth"
+ onchange="renderPayments()"
+ style="max-width:230px"
+></select>
+
+<select
+ id="paymentGroup"
+ onchange="renderPayments()"
+ style="max-width:230px"
+></select>
+
+<input
+ id="paymentSearch"
+ oninput="renderPayments()"
+ class="search"
+ placeholder="Buscar alumno..."
+>
+
+</div>
+
+
+<div class="payment-summary">
+
+<div class="payment-card">
+
+<div class="stat-label">
+ Pagados
+</div>
+
+<div
+ id="paidCount"
+ class="payment-number payment-green"
+>
+ 0
+</div>
+
+</div>
+
+
+<div class="payment-card">
+
+<div class="stat-label">
+ Pendientes
+</div>
+
+<div
+ id="pendingCount"
+ class="payment-number payment-yellow"
+>
+ 0
+</div>
+
+</div>
+
+
+<div class="payment-card">
+
+<div class="stat-label">
+ Total cobrado
+</div>
+
+<div
+ id="paidTotal"
+ class="payment-number payment-green"
+>
+ 0 €
+</div>
+
+</div>
+
+
+<div class="payment-card">
+
+<div class="stat-label">
+ Pendiente
+</div>
+
+<div
+ id="pendingTotal"
+ class="payment-number payment-red"
+>
+ 0 €
+</div>
+
+</div>
+
+</div>
+
+
+<div style="overflow:auto">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Alumno</th>
+<th>Grupo</th>
+<th>Cuota</th>
+<th>Estado</th>
+<th>Fecha pago</th>
+<th>Acción</th>
+
+</tr>
+
+</thead>
+
+<tbody id="paymentsBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= SESSIONS ================= -->
+
+<section id="sessions" class="view">
+
+<div class="top">
+
+<div>
+<div class="eyebrow">
+ Planificación inteligente
+</div>
+
+<h1>
+ Generador de sesiones
+</h1>
+
+</div>
+
+</div>
+
+
+<div class="grid two">
+
+<div class="card">
+
+<div class="formgrid">
+
+<div class="field">
+
+<label>Grupo</label>
+
+<select id="sessionGroup"></select>
+
+</div>
+
+
+<div class="field">
+
+<label>Duración</label>
+
+<select id="sessionDuration">
+
+<option>45</option>
+<option selected>60</option>
+<option>75</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>Disciplina</label>
+
+<select id="sessionType">
+
+<option>Judo</option>
+<option>Multisport</option>
+<option>Mixta</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>Objetivo</label>
+
+<select id="sessionObjective">
+
+<option>Equilibrio</option>
+<option>Coordinación</option>
+<option>Caídas seguras</option>
+<option>Desplazamientos</option>
+<option>Confianza</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<button
+ class="btn primary"
+ style="margin-top:15px;width:100%"
+ onclick="generateSession()"
+>
+ ⚡ Generar sesión
+</button>
+
+</div>
+
+
+<div
+ class="card"
+ id="sessionResult"
+>
+
+<div class="empty">
+ Configura la sesión y pulsa
+ <b>Generar sesión</b>.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PROGRESS ================= -->
+
+<section id="progress" class="view">
+
+<div class="top">
+
+<div>
+
+<div class="eyebrow">
+ Evolución
+</div>
+
+<h1>
+ Progresión
+</h1>
+
+</div>
+
+</div>
+
+<div
+ class="grid three"
+ id="progressCards"
+></div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- ================= STUDENT MODAL ================= -->
+
+<div
+ id="studentModal"
+ class="modal-bg"
+>
+
+<div class="modal">
+
+<h2>
+ Nuevo alumno
+</h2>
+
+
+<div class="formgrid">
+
+<div class="field">
+
+<label>Nombre</label>
+
+<input
+ id="newName"
+ placeholder="Nombre y apellidos"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Edad</label>
+
+<input
+ id="newAge"
+ type="number"
+ min="4"
+ max="16"
+ placeholder="7"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Grupo</label>
+
+<select id="newGroup"></select>
+
+</div>
+
+
+<div class="field">
+
+<label>Cinturón</label>
+
+<select id="newBelt">
+
+<option>Blanco</option>
+<option>Blanco-Amarillo</option>
+<option>Amarillo</option>
+<option>Naranja</option>
+<option>Verde</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>Cuota mensual (€)</label>
+
+<input
+ id="newFee"
+ type="number"
+ min="0"
+ value="40"
+>
+
+</div>
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+ class="btn"
+ onclick="closeModal('studentModal')"
+>
+ Cancelar
+</button>
+
+<button
+ class="btn primary"
+ onclick="saveStudent()"
+>
+ Guardar alumno
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= CLASS MODAL ================= -->
+
+<div
+ id="classModal"
+ class="modal-bg"
+>
+
+<div class="modal">
+
+<h2>
+ Nueva clase
+</h2>
+
+
+<div class="formgrid">
+
+<div class="field">
+
+<label>Fecha</label>
+
+<input
+ id="classDate"
+ type="date"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Hora</label>
+
+<input
+ id="classTime"
+ type="time"
+ value="17:00"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Grupo</label>
+
+<select id="classGroup"></select>
+
+</div>
+
+
+<div class="field">
+
+<label>Actividad</label>
+
+<select id="classActivity">
+
+<option>Judo</option>
+<option>Multisport</option>
+<option>Judo · Juegos</option>
+<option>Circuito motor</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+ class="btn"
+ onclick="closeModal('classModal')"
+>
+ Cancelar
+</button>
+
+<button
+ class="btn primary"
+ onclick="saveClass()"
+>
+ Guardar clase
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ======================================================
+   DATOS
+====================================================== */
+
+const GROUPS=[
+ "Peques 4–6",
+ "Judo 6–8",
+ "Judo 8–10",
+ "Judo 10–12"
+];
+
+const NAMES=[
+ "Lucía Martín",
+ "Mateo García",
+ "Sofía López",
+ "Hugo Sánchez",
+ "Nora Pérez",
+ "Leo Ruiz",
+ "Emma Torres",
+ "Daniel Moreno",
+ "Claudia Díaz",
+ "Álvaro Romero",
+ "Vega Navarro",
+ "Pablo Molina",
+ "Martina Santos",
+ "Lucas Ortega",
+ "Aitana Castro",
+ "Bruno Ramos",
+ "Julia Ferrer",
+ "Mario Vidal",
+ "Noa Iglesias",
+ "Enzo Serrano"
+];
+
+const activities=[
+ "Los animales del tatami",
+ "Semáforo del tatami",
+ "Caídas seguras con juegos",
+ "El castillo en el suelo",
+ "Estaciones ninja",
+ "El tesoro escondido",
+ "Circuito de equilibrio",
+ "Carrera de relevos"
+];
+
+
+/* ======================================================
+   DATOS LOCALES
+====================================================== */
+
+let students=
+ JSON.parse(
+  localStorage.getItem("suki_students")||"null"
+ );
+
+let classes=
+ JSON.parse(
+  localStorage.getItem("suki_classes")||"null"
+ );
+
+let attendance=
+ JSON.parse(
+  localStorage.getItem("suki_attendance")||"{}"
+ );
+
+let payments=
+ JSON.parse(
+  localStorage.getItem("suki_payments")||"{}"
+ );
+
+let calDate=new Date();
+
+
+/* ======================================================
+   INICIALIZAR DATOS DEMO
+====================================================== */
+
+function seed(){
+
+ if(!students){
+
+  students=NAMES.map(
+   (name,index)=>({
+
+    id:Date.now()+index,
+
+    name:name,
+
+    age:4+(index%9),
+
+    group:GROUPS[index%4],
+
+    belt:[
+     "Blanco",
+     "Blanco",
+     "Blanco-Amarillo",
+     "Amarillo"
+    ][index%4],
+
+    fee:40,
+
+    active:true,
+
+    progress:35+(index*7)%61
+
+   })
+  );
+
+ }
+
+
+ if(!classes){
+
+  classes=[];
+
+  const now=new Date();
+
+  for(
+   let d=-4;
+   d<25;
+   d++
+  ){
+
+   const date=
+    new Date(
+     now.getFullYear(),
+     now.getMonth(),
+     now.getDate()+d
+    );
+
+   if(
+    date.getDay()!==0 &&
+    date.getDay()!==6
+   ){
+
+    const index=classes.length;
+
+    classes.push({
+
+     id:Date.now()+1000+index,
+
+     date:iso(date),
+
+     time:[
+      "17:00",
+      "18:00",
+      "19:00"
+     ][index%3],
+
+     group:GROUPS[index%4],
+
+     activity:
+      index%3===0
+      ?"Judo"
+      :
+      index%3===1
+      ?"Multisport"
+      :
+      "Judo · Juegos"
+
+    });
+
+   }
+
+  }
+
+ }
+
+
+ save();
+
+}
+
+
+/* ======================================================
+   GUARDAR
+====================================================== */
+
+function save(){
+
+ localStorage.setItem(
+  "suki_students",
+  JSON.stringify(students)
+ );
+
+ localStorage.setItem(
+  "suki_classes",
+  JSON.stringify(classes)
+ );
+
+ localStorage.setItem(
+  "suki_attendance",
+  JSON.stringify(attendance)
+ );
+
+ localStorage.setItem(
+  "suki_payments",
+  JSON.stringify(payments)
+ );
+
+}
+
+
+/* ======================================================
+   UTILIDADES
+====================================================== */
+
+function iso(date){
+
+ return date
+  .toISOString()
+  .slice(0,10);
+
+}
+
+
+function initials(name){
+
+ return name
+  .split(" ")
+  .map(x=>x[0])
+  .slice(0,2)
+  .join("")
+  .toUpperCase();
+
+}
+
+
+function money(value){
+
+ return Number(value||0)
+  .toLocaleString(
+   "es-ES",
+   {
+    style:"currency",
+    currency:"EUR"
+   }
+  );
+
+}
+
+
+function fmtDate(date){
+
+ return new Date(
+  date+"T12:00:00"
+ )
+ .toLocaleDateString(
+  "es-ES",
+  {
+   weekday:"short",
+   day:"numeric",
+   month:"short"
+  }
+ );
+
+}
+
+
+/* ======================================================
+   NAVEGACIÓN
+====================================================== */
+
+function showView(id){
+
+ document
+  .querySelectorAll(".view")
+  .forEach(
+   x=>x.classList.remove("active")
+  );
+
+ document
+  .getElementById(id)
+  .classList.add("active");
+
+
+ document
+  .querySelectorAll(".nav button")
+  .forEach(
+   x=>
+   x.classList.toggle(
+    "active",
+    x.dataset.view===id
+   )
+  );
+
+
+ if(id==="calendar")
+  renderCalendar();
+
+ if(id==="students")
+  renderStudents();
+
+ if(id==="attendance")
+  renderAttendance();
+
+ if(id==="payments")
+  renderPayments();
+
+ if(id==="progress")
+  renderProgress();
+
+ window.scrollTo(0,0);
+
+}
+
+
+document
+ .querySelectorAll(".nav button")
+ .forEach(
+  button=>
+  button.onclick=
+  ()=>showView(button.dataset.view)
+ );
+
+
+/* ======================================================
+   SELECTS
+====================================================== */
+
+function fillSelect(
+ id,
+ all=false
+){
+
+ const element=
+  document.getElementById(id);
+
+ if(!element)return;
+
+ element.innerHTML=
+  (all
+   ?'<option value="">Todos los grupos</option>'
+   :'')+
+  GROUPS
+   .map(
+    group=>
+    `<option>${group}</option>`
+   )
+   .join("");
+
+}
+
+
+/* ======================================================
+   MESES DE PAGOS
+====================================================== */
+
+function setupPaymentMonths(){
+
+ const select=
+  document.getElementById(
+   "paymentMonth"
+  );
+
+ const now=new Date();
+
+ let html="";
+
+ for(let i=0;i<12;i++){
+
+  const date=
+   new Date(
+    now.getFullYear(),
+    now.getMonth()-i,
+    1
+   );
+
+  const key=
+   date.getFullYear()+
+   "-"+
+   String(date.getMonth()+1)
+    .padStart(2,"0");
+
+  const label=
+   date.toLocaleDateString(
+    "es-ES",
+    {
+     month:"long",
+     year:"numeric"
+    }
+   );
+
+  html+=
+   `<option value="${key}">
+    ${label}
+   </option>`;
+
+ }
+
+ select.innerHTML=html;
+
+}
+
+
+/* ======================================================
+   DASHBOARD
+====================================================== */
+
+function renderDashboard(){
+
+ document
+  .getElementById("statStudents")
+  .textContent=
+  students.filter(
+   s=>s.active
+  ).length;
+
+
+ const today=iso(new Date());
+
+
+ document
+  .getElementById("statClasses")
+  .textContent=
+  classes.filter(
+   c=>c.date===today
+  ).length;
+
+
+ const month=
+  new Date().getFullYear()+
+  "-"+
+  String(
+   new Date().getMonth()+1
+  ).padStart(2,"0");
+
+
+ let paid=0;
+ let pending=0;
+
+
+ students
+  .filter(s=>s.active)
+  .forEach(
+   student=>{
+
+    const key=
+     month+"_"+student.id;
+
+    if(payments[key]?.status==="paid")
+     paid+=Number(student.fee||0);
+    else
+     pending+=Number(student.fee||0);
+
+   }
+  );
+
+
+ document
+  .getElementById("statPaid")
+  .textContent=money(paid);
+
+
+ document
+  .getElementById("statPending")
+  .textContent=money(pending);
+
+
+ const upcoming=
+  classes
+   .filter(c=>c.date>=today)
+   .sort(
+    (a,b)=>
+    (a.date+a.time)
+     .localeCompare(
+      b.date+b.time
+     )
+   )
+   .slice(0,5);
+
+
+ document
+  .getElementById("nextClasses")
+  .innerHTML=
+  upcoming.length
+
+  ?
+
+  upcoming
+   .map(
+    c=>`
+
+    <div
+     class="row"
+     onclick="
+      openAttendanceFor('${c.group}')
+     "
+    >
+
+     <div class="row-left">
+
+      <div class="avatar">
+       🥋
+      </div>
+
+      <div>
+
+       <div class="row-title">
+        ${c.time} · ${c.group}
+       </div>
+
+       <div class="row-sub">
+        ${fmtDate(c.date)}
+        ·
+        ${c.activity}
+       </div>
+
+      </div>
+
+     </div>
+
+     <span class="badge green">
+      ${c.activity.includes("Multi")
+       ?"MULTI"
+       :"JUDO"}
+     </span>
+
+    </div>
+
+    `
+   )
+   .join("")
+
+  :
+
+  `
+  <div class="empty">
+   No hay clases próximas.
+  </div>
+  `;
+
+}
+
+
+/* ======================================================
+   CALENDARIO
+====================================================== */
+
+function renderCalendar(){
+
+ const y=calDate.getFullYear();
+
+ const m=calDate.getMonth();
+
+ document
+  .getElementById("monthTitle")
+  .textContent=
+  new Date(y,m,1)
+   .toLocaleDateString(
+    "es-ES",
+    {
+     month:"long",
+     year:"numeric"
+    }
+   );
+
+
+ const first=
+  new Date(y,m,1);
+
+ const start=
+  (first.getDay()+6)%7;
+
+ const days=
+  new Date(y,m+1,0)
+   .getDate();
+
+ const prev=
+  new Date(y,m,0)
+   .getDate();
+
+
+ let html=
+  [
+   "Lun","Mar","Mié",
+   "Jue","Vie","Sáb","Dom"
+  ]
+  .map(
+   x=>
+   `<div class="dayname">
+    ${x}
+   </div>`
+  )
+  .join("");
+
+
+ for(
+  let i=0;
+  i<42;
+  i++
+ ){
+
+  const n=i-start+1;
+
+  let dateObj;
+  let muted=false;
+
+
+  if(n<1){
+
+   dateObj=
+    new Date(
+     y,
+     m-1,
+     prev+n
+    );
+
+   muted=true;
+
+  }
+
+  else if(n>days){
+
+   dateObj=
+    new Date(
+     y,
+     m+1,
+     n-days
+    );
+
+   muted=true;
+
+  }
+
+  else{
+
+   dateObj=
+    new Date(
+     y,
+     m,
+     n
+    );
+
+  }
+
+
+  const date=iso(dateObj);
+
+  const events=
+   classes.filter(
+    c=>c.date===date
+   );
+
+
+  html+=`
+
+  <div
+   class="
+    day
+    ${muted?"muted":""}
+    ${date===iso(new Date())
+     ?"today"
+     :""}
+   "
+  >
+
+   <div class="daynum">
+    ${dateObj.getDate()}
+   </div>
+
+   ${
+    events.map(
+     c=>`
+
+     <div
+      class="
+       event
+       ${
+        c.activity.includes("Multi")
+        ?"blue"
+        :
+        c.activity.includes("Juegos")
+        ?"green"
+        :""
+       }
+      "
+      onclick="
+       openAttendanceFor('${c.group}')
+      "
+     >
+
+      <strong>
+       ${c.time}
+       ·
+       ${c.group.replace("Judo ","")}
+      </strong>
+
+      <span>
+       ${c.activity}
+      </span>
+
+     </div>
+
+     `
+    ).join("")
+   }
+
+  </div>
+
+  `;
+
+ }
+
+
+ document
+  .getElementById("calendarGrid")
+  .innerHTML=html;
+
+}
+
+
+function changeMonth(amount){
+
+ calDate.setMonth(
+  calDate.getMonth()+amount
+ );
+
+ renderCalendar();
+
+}
+
+
+function goToday(){
+
+ calDate=new Date();
+
+ renderCalendar();
+
+}
+
+
+/* ======================================================
+   ALUMNOS
+====================================================== */
+
+function renderStudents(){
+
+ const q=
+  (
+   document
+   .getElementById("studentSearch")
+   ?.value||""
+  ).toLowerCase();
+
+
+ const group=
+  document
+   .getElementById("groupFilter")
+   ?.value||"";
+
+
+ const list=
+  students.filter(
+   s=>
+   s.name
+    .toLowerCase()
+    .includes(q)
+   &&
+   (!group||s.group===group)
+  );
+
+
+ document
+  .getElementById("studentsBody")
+  .innerHTML=
+
+  list.map(
+   s=>`
+
+   <tr>
+
+    <td>
+
+     <div class="row-left">
+
+      <div class="avatar">
+       ${initials(s.name)}
+      </div>
+
+      <div>
+
+       <b>
+        ${s.name}
+       </b>
+
+       <div class="row-sub">
+        ${s.belt}
+        ·
+        ${money(s.fee)}/mes
+       </div>
+
+      </div>
+
+     </div>
+
+    </td>
+
+    <td>
+     ${s.group}
+    </td>
+
+    <td>
+     ${s.age}
+    </td>
+
+    <td>
+     <span class="badge green">
+      Activo
+     </span>
+    </td>
+
+    <td>
+
+     <div style="min-width:100px">
+
+      <span
+       style="font-size:10px;color:#999"
+      >
+       ${s.progress}%
+      </span>
+
+      <div class="progress">
+
+       <i
+        style="width:${s.progress}%"
+       ></i>
+
+      </div>
+
+     </div>
+
+    </td>
+
+    <td>
+
+     <button
+      class="btn"
+      onclick="removeStudent(${s.id})"
+     >
+      Eliminar
+     </button>
+
+    </td>
+
+   </tr>
+
+   `
+  )
+  .join("")
+
+  ||
+
+  `
+  <tr>
+   <td colspan="6">
+    <div class="empty">
+     No se han encontrado alumnos.
+    </div>
+   </td>
+  </tr>
+  `;
+
+}
+
+
+function openStudent(){
+
+ document
+  .getElementById("studentModal")
+  .classList.add("show");
+
+}
+
+
+function saveStudent(){
+
+ const name=
+  document
+   .getElementById("newName")
+   .value.trim();
+
+ const age=
+  +document
+   .getElementById("newAge")
+   .value;
+
+ const fee=
+  +document
+   .getElementById("newFee")
+   .value||0;
+
+
+ if(!name||!age){
+
+  alert(
+   "Introduce nombre y edad."
+  );
+
+  return;
+
+ }
+
+
+ students.push({
+
+  id:Date.now(),
+
+  name:name,
+
+  age:age,
+
+  group:
+   document
+    .getElementById("newGroup")
+    .value,
+
+  belt:
+   document
+    .getElementById("newBelt")
+    .value,
+
+  fee:fee,
+
+  active:true,
+
+  progress:10
+
+ });
+
+
+ save();
+
+ closeModal("studentModal");
+
+ document
+  .getElementById("newName")
+  .value="";
+
+ document
+  .getElementById("newAge")
+  .value="";
+
+ renderStudents();
+
+ renderDashboard();
+
+ renderPayments();
+
+ renderProgress();
+
+}
+
+
+function removeStudent(id){
+
+ if(
+  confirm(
+   "¿Eliminar este alumno de la demo?"
+  )
+ ){
+
+  students=
+   students.filter(
+    s=>s.id!==id
+   );
+
+  save();
+
+  renderStudents();
+
+  renderDashboard();
+
+  renderPayments();
+
+  renderProgress();
+
+ }
+
+}
+
+
+/* ======================================================
+   ASISTENCIA
+====================================================== */
+
+function renderAttendance(){
+
+ const group=
+  document
+   .getElementById("attGroup")
+   .value;
+
+ const date=
+  document
+   .getElementById("attDate")
+   .value;
+
+
+ const list=
+  students.filter(
+   s=>s.group===group
+  );
+
+
+ document
+  .getElementById("attendanceList")
+  .innerHTML=
+
+  list.map(
+   s=>{
+
+    const key=
+     date+"_"+s.id;
+
+    const status=
+     attendance[key]||"pending";
+
+
+    return `
+
+    <div class="att">
+
+     <div class="row-left">
+
+      <div class="avatar">
+       ${initials(s.name)}
+      </div>
+
+      <div>
+
+       <div class="row-title">
+        ${s.name}
+       </div>
+
+       <div class="row-sub">
+        ${s.belt}
+       </div>
+
+      </div>
+
+     </div>
+
+
+     <div class="actions">
+
+      <button
+       class="btn
+       ${status==="present"?"green":""}"
+       onclick="
+        setAtt(
+         ${s.id},
+         'present'
+        )
+       "
+      >
+       ✓
+      </button>
+
+
+      <button
+       class="btn
+       ${status==="absent"?"primary":""}"
+       onclick="
+        setAtt(
+         ${s.id},
+         'absent'
+        )
+       "
+      >
+       ✕
+      </button>
+
+     </div>
+
+    </div>
+
+    `;
+
+   }
+  )
+  .join("")
+
+  ||
+
+  `
+  <div
+   class="empty"
+   style="grid-column:1/-1"
+  >
+   Selecciona un grupo con alumnos.
+  </div>
+  `;
+
+}
+
+
+function setAtt(id,status){
+
+ const date=
+  document
+   .getElementById("attDate")
+   .value;
+
+ attendance[
+  date+"_"+id
+ ]=status;
+
+ save();
+
+ renderAttendance();
+
+}
+
+
+function openAttendanceFor(group){
+
+ showView("attendance");
+
+ document
+  .getElementById("attGroup")
+  .value=group;
+
+ renderAttendance();
+
+}
+
+
+/* ======================================================
+   PAGOS
+====================================================== */
+
+function renderPayments(){
+
+ const month=
+  document
+   .getElementById("paymentMonth")
+   .value;
+
+
+ const group=
+  document
+   .getElementById("paymentGroup")
+   .value;
+
+
+ const search=
+  (
+   document
+    .getElementById("paymentSearch")
+    .value||""
+  ).toLowerCase();
+
+
+ const list=
+  students.filter(
+   s=>
+   s.active&&
+   (!group||s.group===group)&&
+   s.name
+    .toLowerCase()
+    .includes(search)
+  );
+
+
+ let paidCount=0;
+ let pendingCount=0;
+ let paidTotal=0;
+ let pendingTotal=0;
+
+
+ list.forEach(
+  student=>{
+
+   const key=
+    month+"_"+student.id;
+
+   const payment=
+    payments[key];
+
+   if(payment?.status==="paid"){
+
+    paidCount++;
+
+    paidTotal+=
+     Number(student.fee||0);
+
+   }else{
+
+    pendingCount++;
+
+    pendingTotal+=
+     Number(student.fee||0);
+
+   }
+
+  }
+ );
+
+
+ document
+  .getElementById("paidCount")
+  .textContent=paidCount;
+
+
+ document
+  .getElementById("pendingCount")
+  .textContent=pendingCount;
+
+
+ document
+  .getElementById("paidTotal")
+  .textContent=money(paidTotal);
+
+
+ document
+  .getElementById("pendingTotal")
+  .textContent=money(pendingTotal);
+
+
+ document
+  .getElementById("paymentsBody")
+  .innerHTML=
+
+  list.map(
+   student=>{
+
+    const key=
+     month+"_"+student.id;
+
+    const payment=
+     payments[key];
+
+    const isPaid=
+     payment?.status==="paid";
+
+
+    return `
+
+    <tr>
+
+     <td>
+
+      <div class="row-left">
+
+       <div class="avatar">
+        ${initials(student.name)}
+       </div>
+
+       <div>
+
+        <b>
+         ${student.name}
+        </b>
+
+        <div class="row-sub">
+         Cuota mensual
+        </div>
+
+       </div>
+
+      </div>
+
+     </td>
+
+
+     <td>
+      ${student.group}
+     </td>
+
+
+     <td>
+      <b>
+       ${money(student.fee)}
+      </b>
+     </td>
+
+
+     <td>
+
+      ${
+       isPaid
+
+       ?
+
+       `
+       <span class="badge green">
+        ✓ Pagado
+       </span>
+       `
+
+       :
+
+       `
+       <span class="badge yellow">
+        Pendiente
+       </span>
+       `
+      }
+
+     </td>
+
+
+     <td>
+
+      ${
+       isPaid
+       ?payment.date
+       :"—"
+      }
+
+     </td>
+
+
+     <td>
+
+      ${
+       isPaid
+
+       ?
+
+       `
+       <button
+        class="btn"
+        onclick="
+         changePayment(
+          ${student.id},
+          '${month}',
+          'pending'
+         )
+        "
+       >
+        Marcar pendiente
+       </button>
+       `
+
+       :
+
+       `
+       <button
+        class="btn green"
+        onclick="
+         changePayment(
+          ${student.id},
+          '${month}',
+          'paid'
+         )
+        "
+       >
+        ✓ Marcar pagado
+       </button>
+       `
+      }
+
+     </td>
+
+    </tr>
+
+    `;
+
+   }
+  )
+  .join("")
+
+  ||
+
+  `
+  <tr>
+   <td colspan="6">
+
+    <div class="empty">
+     No hay alumnos para este filtro.
+    </div>
+
+   </td>
+  </tr>
+  `;
+
+}
+
+
+function changePayment(
+ studentId,
+ month,
+ status
+){
+
+ const key=
+  month+"_"+studentId;
+
+
+ if(status==="paid"){
+
+  payments[key]={
+
+   status:"paid",
+
+   date:
+    new Date()
+     .toLocaleDateString(
+      "es-ES"
+     )
+
+  };
+
+ }else{
+
+  delete payments[key];
+
+ }
+
+
+ save();
+
+ renderPayments();
+
+ renderDashboard();
+
+}
+
+
+/* ======================================================
+   NUEVA CLASE
+====================================================== */
+
+function openClass(){
+
+ document
+  .getElementById("classDate")
+  .value=iso(new Date());
+
+ document
+  .getElementById("classModal")
+  .classList.add("show");
+
+}
+
+
+function saveClass(){
+
+ const date=
+  document
+   .getElementById("classDate")
+   .value;
+
+ const time=
+  document
+   .getElementById("classTime")
+   .value;
+
+
+ if(!date||!time){
+
+  alert(
+   "Introduce fecha y hora."
+  );
+
+  return;
+
+ }
+
+
+ classes.push({
+
+  id:Date.now(),
+
+  date:date,
+
+  time:time,
+
+  group:
+   document
+    .getElementById("classGroup")
+    .value,
+
+  activity:
+   document
+    .getElementById("classActivity")
+    .value
+
+ });
+
+
+ save();
+
+ closeModal("classModal");
+
+ renderCalendar();
+
+ renderDashboard();
+
+}
+
+
+/* ======================================================
+   GENERADOR DE SESIONES
+====================================================== */
+
+function generateSession(){
+
+ const duration=
+  +document
+   .getElementById("sessionDuration")
+   .value;
+
+ const type=
+  document
+   .getElementById("sessionType")
+   .value;
+
+ const objective=
+  document
+   .getElementById("sessionObjective")
+   .value;
+
+ const group=
+  document
+   .getElementById("sessionGroup")
+   .value;
+
+
+ const warm=
+  Math.round(duration*.14);
+
+ const main=
+  Math.round(duration*.27);
+
+ const motor=
+  Math.round(duration*.20);
+
+ const game=
+  duration-
+  warm-
+  main-
+  main-
+  motor;
+
+
+ const pool=
+  activities
+   .slice()
+   .sort(
+    ()=>Math.random()-.5
+   );
+
+
+ const blocks=[
+
+  [
+   "01",
+   "Activación",
+   warm,
+   "Semáforo del tatami"
+  ],
+
+  [
+   "02",
+   "Técnica / objetivo",
+   main,
+   pool[0]
+  ],
+
+  [
+   "03",
+   "Aplicación",
+   main,
+   pool[1]
+  ],
+
+  [
+   "04",
+   "Circuito motor",
+   motor,
+   pool[2]
+  ],
+
+  [
+   "05",
+   "Vuelta a la calma",
+   game,
+   "Respiramos como tortugas"
+  ]
+
+ ];
+
+
+ document
+  .getElementById("sessionResult")
+  .innerHTML=`
+
+  <div class="section-head">
+
+   <div>
+
+    <h2>
+     ${type} · ${group}
+    </h2>
+
+    <div class="row-sub">
+     ${duration} min
+     · Objetivo:
+     ${objective}
+    </div>
+
+   </div>
+
+   <span class="badge green">
+    GENERADA
+   </span>
+
+  </div>
+
+
+  <div class="list">
+
+   ${
+    blocks
+     .map(
+      b=>`
+
+      <div class="row">
+
+       <div class="row-left">
+
+        <div class="avatar">
+         ${b[0]}
+        </div>
+
+        <div>
+
+         <div class="row-title">
+          ${b[1]}
+          ·
+          ${b[3]}
+         </div>
+
+         <div class="row-sub">
+          ${b[2]} min
+          · Adaptar intensidad según edad
+         </div>
+
+        </div>
+
+       </div>
+
+      </div>
+
+      `
+     )
+     .join("")
+   }
+
+  </div>
+
+
+  <button
+   class="btn green"
+   style="margin-top:14px;width:100%"
+   onclick="
+    alert(
+     'Sesión guardada en esta demo local.'
+    )
+   "
+  >
+   Guardar sesión
+  </button>
+
+  `;
+
+}
+
+
+/* ======================================================
+   PROGRESIÓN
+====================================================== */
+
+function renderProgress(){
+
+ document
+  .getElementById("progressCards")
+  .innerHTML=
+
+  GROUPS
+   .map(
+    group=>{
+
+     const list=
+      students.filter(
+       s=>s.group===group
+      );
+
+
+     const average=
+      list.length
+
+      ?
+
+      Math.round(
+       list.reduce(
+        (total,s)=>
+        total+s.progress,
+        0
+       )/
+       list.length
+      )
+
+      :
+
+      0;
+
+
+     return `
+
+     <div class="card">
+
+      <div class="section-head">
+
+       <h2>
+        ${group}
+       </h2>
+
+       <span
+        class="badge
+        ${average>70
+         ?"green"
+         :"yellow"}"
+       >
+        ${average}%
+       </span>
+
+      </div>
+
+
+      <div class="row-sub">
+       ${list.length}
+       alumnos
+      </div>
+
+
+      <div class="progress">
+
+       <i
+        style="width:${average}%"
+       ></i>
+
+      </div>
+
+
+      <div
+       style="margin-top:15px"
+       class="list"
+      >
+
+       ${
+        list
+         .slice(0,4)
+         .map(
+          s=>`
+
+          <div class="row">
+
+           <span
+            style="
+             font-size:12px;
+             font-weight:700
+            "
+           >
+            ${s.name}
+           </span>
+
+           <span
+            style="
+             font-size:10px;
+             color:#999
+            "
+           >
+            ${s.belt}
+            ·
+            ${s.progress}%
+           </span>
+
+          </div>
+
+          `
+         )
+         .join("")
+       }
+
+      </div>
+
+     </div>
+
+     `;
+
+    }
+   )
+   .join("");
+
+}
+
+
+/* ======================================================
+   MODALES
+====================================================== */
+
+function closeModal(id){
+
+ document
+  .getElementById(id)
+  .classList.remove("show");
+
+}
+
+
+/* ======================================================
+   INICIALIZACIÓN
+====================================================== */
+
+function init(){
+
+ seed();
+
+
+ fillSelect(
+  "newGroup"
+ );
+
+ fillSelect(
+  "classGroup"
+ );
+
+ fillSelect(
+  "sessionGroup"
+ );
+
+ fillSelect(
+  "attGroup"
+ );
+
+ fillSelect(
+  "groupFilter",
+  true
+ );
+
+ fillSelect(
+  "paymentGroup",
+  true
+ );
+
+
+ setupPaymentMonths();
+
+
+ document
+  .getElementById("attDate")
+  .value=iso(new Date());
+
+
+ renderDashboard();
+
+ renderCalendar();
+
+ renderStudents();
+
+ renderAttendance();
+
+ renderPayments();
+
+ renderProgress();
+
+}
+
+
+init();
+
+</script>
+
+</body>
+</html>
